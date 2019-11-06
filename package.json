@@ -1,0 +1,32 @@
+{
+  "name": "array-differences",
+  "version": "1.0.0",
+  "description": "Find the differences between two arrays and their positions",
+  "main": "index.js",
+  "author": "David Hérault <dherault@gmail.com> (https://github.com/dherault)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dherault/array-differences.git"
+  },
+  "homepage": "https://github.com/dherault/array-differences#readme",
+  "bugs": {
+    "url": "https://github.com/dherault/array-differences/issues"
+  },
+  "keywords": [
+    "array",
+    "differences",
+    "difference",
+    "array-diff",
+    "array-difference",
+    "diffing"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-dherault": "^1.0.4",
+    "jest": "^24.9.0"
+  }
+}
