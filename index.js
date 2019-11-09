@@ -70,7 +70,7 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   }
 
   /*
-    Build an object for incoherent keys, step 1
+    Build an object for incoherent keys.
     [0, 1, 2, 3]
     [1, 2, 4]
     -->
@@ -84,27 +84,50 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   a.forEach((item, index) => aObject[leftIndexOffset + index] = item)
   b.forEach((item, index) => bObject[leftIndexOffset + index] = item)
 
-  let maxIndex = 0
-  const indexesToDeleteA = []
-  const indexesToDeleteB = []
+  let indexesToDeleteA = []
+  let indexesToDeleteB = []
 
-  Object.entries(aObject).forEach(([indexA, itemA]) => {
-    for (let indexB = maxIndex; indexB < b.length; indexB++) {
-      if (comparisonFn(itemA, b[indexB])) {
-        maxIndex = indexB + 1
-        indexesToDeleteA.push(indexA)
-        indexesToDeleteB.push(indexB + leftIndexOffset)
+  /*
+    Let A = [0, 1, 2]
+    Consider A, [1, 2], [2], [0, 2], [0], [0, 1] the subsets of a.
+    And compare them to B in a competion to find the minimum of operations between A and B.
+    If for a given index there is a match, the index is deleted (not taken into account).
+    The winner is the one that deletes the most indexes.
+  */
+  for (let i = 0; i < a.length; i++) {
+    for (let j = 0; j < a.length - i; j++) {
+      const currentIndexesToDeleteA = []
+      const currentIndexesToDeleteB = []
+      let maxIndex = 0
 
-        return
+      Object.entries(aObject).forEach(([indexA, itemA]) => {
+        if (indexA >= i && indexA < i + j) {
+          return
+        }
+
+        for (let indexB = maxIndex; indexB < b.length; indexB++) {
+          if (comparisonFn(itemA, b[indexB])) {
+            maxIndex = indexB + 1
+            currentIndexesToDeleteA.push(indexA)
+            currentIndexesToDeleteB.push(indexB + leftIndexOffset)
+
+            return
+          }
+        }
+      })
+
+      if (currentIndexesToDeleteA.length + currentIndexesToDeleteB.length > indexesToDeleteA.length + indexesToDeleteB.length) {
+        indexesToDeleteA = currentIndexesToDeleteA
+        indexesToDeleteB = currentIndexesToDeleteB
       }
     }
-  })
+  }
 
   indexesToDeleteA.reverse().forEach(index => delete aObject[index])
   indexesToDeleteB.reverse().forEach(index => delete bObject[index])
 
   /*
-    Resolve incoherences
+    Resolve incoherences.
   */
   const results = []
 

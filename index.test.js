@@ -247,6 +247,15 @@ test('It handles duplicates', () => {
   expect(diff).toEqual([['modified', 0, 111], ['inserted', 2, 112], ['deleted', 5]])
 })
 
+test('It return the minimum number of operations', () => {
+  diff = arrayDifferences(
+    [0, 0, 1, 1, 1],
+    [1, 1, 1, 0, 0],
+  )
+
+  expect(diff).toEqual([['deleted', 0], ['deleted', 0], ['inserted', 3, 0], ['inserted', 4, 0]])
+})
+
 test('It uses a custom comparison function', () => {
   diff = arrayDifferences(
     [{ value: 0 }, { value: 1 }, { value: 1 }, { value: 4 }, { value: 1 }, { value: 1 }],
@@ -255,4 +264,20 @@ test('It uses a custom comparison function', () => {
   )
 
   expect(diff).toEqual([['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]])
+})
+
+test('It works with any litterals out of the box', () => {
+  diff = arrayDifferences(
+    ['b', 'b', 'a'],
+    ['a', 'b', 'b'],
+  )
+
+  expect(diff).toEqual([['inserted', 0, 'a'], ['deleted', 3]])
+
+  diff = arrayDifferences(
+    [true, false],
+    [false, false, true, true],
+  )
+
+  expect(diff).toEqual([['inserted', 0, false], ['inserted', 1, false], ['modified', 3, true]])
 })
