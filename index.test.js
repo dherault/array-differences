@@ -202,3 +202,57 @@ test('It return the modified, inserted and deleted items in complex situations',
 
   expect(diff).toEqual([['modified', 0, 111], ['modified', 2, 112], ['deleted', 3], ['deleted', 3], ['modified', 4, 7]])
 })
+
+test('It handles duplicates', () => {
+  diff = arrayDifferences(
+    [1, 1],
+    [1, 1, 1],
+  )
+
+  expect(diff).toEqual([['inserted', 2, 1]])
+
+  diff = arrayDifferences(
+    [0, 0, 1, 1],
+    [0, 1, 0, 1, 1],
+  )
+
+  expect(diff).toEqual([['inserted', 1, 1]])
+
+  diff = arrayDifferences(
+    [1, 1, 1],
+    [1, 1],
+  )
+
+  expect(diff).toEqual([['deleted', 2]])
+
+  diff = arrayDifferences(
+    [0, 1, 1],
+    [1, 1],
+  )
+
+  expect(diff).toEqual([['deleted', 0]])
+
+  diff = arrayDifferences(
+    [1, 1, 4, 1, 1],
+    [1, 112, 1, 4, 1],
+  )
+
+  expect(diff).toEqual([['inserted', 1, 112], ['deleted', 4]])
+
+  diff = arrayDifferences(
+    [0, 1, 1, 4, 1, 1],
+    [111, 1, 112, 1, 4, 1],
+  )
+
+  expect(diff).toEqual([['modified', 0, 111], ['inserted', 2, 112], ['deleted', 5]])
+})
+
+test('It uses a custom comparison function', () => {
+  diff = arrayDifferences(
+    [{ value: 0 }, { value: 1 }, { value: 1 }, { value: 4 }, { value: 1 }, { value: 1 }],
+    [{ value: 111 }, { value: 1 }, { value: 112 }, { value: 1 }, { value: 4 }, { value: 1 }],
+    (a, b) => a.value === b.value
+  )
+
+  expect(diff).toEqual([['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]])
+})

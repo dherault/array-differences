@@ -5,6 +5,15 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   const a = arrayA.slice()
   const b = arrayB.slice()
 
+  /*
+    Trim the left sides:
+    [0, 1, 2]
+    [0, 1, 3, 4]
+    -->
+    [2]
+    [3, 4]
+  */
+
   let leftIndexOffset = 0
   let l = Math.max(a.length, b.length)
 
@@ -25,6 +34,15 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
       break
     }
   }
+
+  /*
+    Trim the right sides:
+    [0, 1, 2]
+    [1, 3, 1, 2]
+    -->
+    [0]
+    [1, 3]
+  */
 
   const al = a.length
   const bl = b.length
@@ -51,6 +69,15 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     return []
   }
 
+  /*
+    Build an object for incoherent keys, step 1
+    [0, 1, 2, 3]
+    [1, 2, 4]
+    -->
+    aObject: { '0': 0, '3': 3 }
+    bObject: { '2': 4 }
+  */
+
   const aObject = {}
   const bObject = {}
 
@@ -64,8 +91,7 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   Object.entries(aObject).forEach(([indexA, itemA]) => {
     for (let indexB = maxIndex; indexB < b.length; indexB++) {
       if (comparisonFn(itemA, b[indexB])) {
-        maxIndex = indexB
-
+        maxIndex = indexB + 1
         indexesToDeleteA.push(indexA)
         indexesToDeleteB.push(indexB + leftIndexOffset)
 
@@ -77,11 +103,14 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   indexesToDeleteA.reverse().forEach(index => delete aObject[index])
   indexesToDeleteB.reverse().forEach(index => delete bObject[index])
 
+  /*
+    Resolve incoherences
+  */
   const results = []
 
   const aKeys = Object.keys(aObject).map(key => parseInt(key))
   const bKeys = Object.keys(bObject).map(key => parseInt(key))
-  let keys = mergeDedupeSort(aKeys, bKeys)
+  let keys = mergeDedupeSort(aKeys, bKeys) // In previous example: [0, 2, 3]
 
   do {
     const index = keys[0]
@@ -116,14 +145,14 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   return results
 }
 
+function defaultComparisonFn(x, y) {
+  return x === y
+}
+
 function checkArray(array) {
   if (!Array.isArray(array)) {
     throw new Error('Argument is not an array')
   }
-}
-
-function defaultComparisonFn(x, y) {
-  return x === y
 }
 
 function mergeDedupeSort(a, b) {
