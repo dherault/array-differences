@@ -84,9 +84,6 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   a.forEach((item, index) => aObject[leftIndexOffset + index] = item)
   b.forEach((item, index) => bObject[leftIndexOffset + index] = item)
 
-  let indexesToDeleteA = []
-  let indexesToDeleteB = []
-
   /*
     Let A = [0, 1, 2]
     Consider A, [1, 2], [2], [0, 2], [0], [0, 1] the subsets of a.
@@ -94,6 +91,10 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     If for a given index there is a match, the index is deleted (not taken into account).
     The winner is the one that deletes the most indexes.
   */
+
+  let indexesToDeleteA = []
+  let indexesToDeleteB = []
+
   for (let i = 0; i < a.length; i++) {
     for (let j = 0; j < a.length - i; j++) {
       const currentIndexesToDeleteA = []
@@ -179,11 +180,13 @@ function checkArray(array) {
 }
 
 function mergeDedupeSort(a, b) {
-  return [...new Set([...a, ...b])].sort()
+  return [...new Set([...a, ...b])].sort((a, b) => a < b ? -1 : 1)
 }
 
 function incrementObjectKeys(o, diff) {
-  const keys = Object.keys(o).sort()
+  const keys = Object.keys(o)
+  .map(key => parseInt(key))
+  .sort((a, b) => a < b ? -1 : 1)
 
   if (diff === 1) {
     keys.reverse()

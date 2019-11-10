@@ -254,6 +254,13 @@ test('It return the minimum number of operations', () => {
   )
 
   expect(diff).toEqual([['deleted', 0], ['deleted', 0], ['inserted', 3, 0], ['inserted', 4, 0]])
+
+  diff = arrayDifferences(
+    [0, 0, 1, 1, 1, 0, 0, 2, 2, 1],
+    [2, 2, 1, 0, 0, 1, 1, 1, 0, 0],
+  )
+
+  expect(diff).toEqual([['inserted', 0, 2], ['inserted', 1, 2], ['inserted', 2, 1], ['deleted', 10], ['deleted', 10], ['deleted', 10]])
 })
 
 test('It uses a custom comparison function', () => {
@@ -280,4 +287,20 @@ test('It works with any litterals out of the box', () => {
   )
 
   expect(diff).toEqual([['inserted', 0, false], ['inserted', 1, false], ['modified', 3, true]])
+})
+
+test('It works on large arrays', () => {
+  const array = []
+
+  for (let i = 0; i < 1000; i++) {
+    array.push(i)
+  }
+
+  const array2 = array.slice()
+
+  array2[99] = 111
+  array2[22] = 111
+  diff = arrayDifferences(array, array2)
+
+  expect(diff).toEqual([['modified', 22, 111], ['modified', 99, 111]])
 })
