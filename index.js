@@ -215,8 +215,8 @@ function removeArrayItem(a, item) {
   return a
 }
 
-function reconstructArray(array, differences, slice = false) {
-  const a = slice ? array.slice() : array
+function reconstructArray(array, differences, inPlace = false) {
+  const a = inPlace ? array : array.slice()
 
   differences.forEach(([operation, index, value]) => {
     if (operation === 'inserted') {
