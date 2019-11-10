@@ -42,7 +42,9 @@ const diff = arrayDifferences(
 ## Performance on large arrays
 
 Entry one is length n,
+
 Entry two is length m,
+
 Perfomance is n * n * m.
 
 Therefore, it works best on small arrays.
