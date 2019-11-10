@@ -215,4 +215,24 @@ function removeArrayItem(a, item) {
   return a
 }
 
+function reconstructArray(array, differences, slice = false) {
+  const a = slice ? array.slice() : array
+
+  differences.forEach(([operation, index, value]) => {
+    if (operation === 'inserted') {
+      a.splice(index, 0, value)
+    }
+    else if (operation === 'deleted') {
+      a.splice(index, 1)
+    }
+    else if (operation === 'modified') {
+      a[index] = value
+    }
+  })
+
+  return a
+}
+
+arrayDifferences.reconstructArray = reconstructArray
+
 module.exports = arrayDifferences
