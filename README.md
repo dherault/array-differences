@@ -1,5 +1,7 @@
 # array-differences
 
+[![npm version](https://badge.fury.io/js/array-differences.svg)](https://badge.fury.io/js/array-differences)
+
 Find the differences between two arrays and their positions.
 
 ## Installation
