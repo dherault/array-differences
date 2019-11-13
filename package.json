@@ -22,7 +22,7 @@
     "diffing"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

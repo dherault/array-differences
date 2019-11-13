@@ -267,6 +267,12 @@ test('It works with any litterals out of the box', () => {
     [false, false, true, true],
     [['inserted', 0, false], ['inserted', 1, false], ['modified', 3, true]]
   )
+
+  testArrayDifferences(
+    [null, null],
+    [null, null, null],
+    [['inserted', 2, null]]
+  )
 })
 
 test('It works on large arrays', () => {
@@ -282,4 +288,10 @@ test('It works on large arrays', () => {
   array2[22] = 111
 
   testArrayDifferences(array, array2, [['modified', 22, 111], ['modified', 99, 111]])
+})
+
+test('It throws on non-array inputs', () => {
+  expect(() => arrayDifferences(null, [])).toThrow()
+  expect(() => arrayDifferences([], null)).toThrow()
+  expect(() => arrayDifferences(2, 3)).toThrow()
 })
