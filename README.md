@@ -39,11 +39,11 @@ const diff = arrayDifferences(
 You can recontruct the second array by iterating over the differences on the first array or using the utilities:
 
 ```js
-import { reconstructArray, deconstructArray } from 'array-differences'
+import { reconstructArray } from 'array-differences'
 
 const reconstructed = reconstructArray(input, diff) // builds the output
 
-// You can reconstruct or decontruct in place:
+// You can reconstruct in place:
 reconstructArray(input, diff, true) // modifies input to recreate output from diff
 ```
 
