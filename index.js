@@ -88,7 +88,7 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     Let A = [0, 1, 2]
     Consider A, [1, 2], [2], [0, 2], [0], [0, 1] the subsets of a.
     And compare them to B in a competion to find the minimum of operations between A and B.
-    If for a given index there is a match, the index is deleted (not taken into account).
+    If for a given index there is a match between A[index] and B[index], the index is deleted (not taken into account).
     The winner is the one that deletes the most indexes.
   */
 
