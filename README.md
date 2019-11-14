@@ -36,7 +36,7 @@ const diff = arrayDifferences(
 --> [['inserted', 2, { name: 'Chloe' }]]
 ```
 
-You can recontruct the second array by iterating over the differences on the first array or using the utilities:
+You can recontruct the second array by iterating over the differences on the first array or using the utility:
 
 ```js
 import { reconstructArray } from 'array-differences'
