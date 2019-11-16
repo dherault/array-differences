@@ -1,6 +1,6 @@
 {
   "name": "array-differences",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Find the differences between two arrays and their positions",
   "main": "index.js",
   "author": "David Hérault <dherault@gmail.com> (https://github.com/dherault)",
