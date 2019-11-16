@@ -49,6 +49,10 @@ reconstructArray(input, diff, true) // modifies input to recreate output from di
 
 The algorythm may produce non-conformant results if your array contains `undefined` values.
 
+## Undefined values
+
+The algorythm does not support arrays containing `undefined` values. Please replace your `undefined` values with a placeholder before applying it.
+
 ## Performance on large arrays
 
 Entry one is length n,
