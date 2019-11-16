@@ -21,10 +21,6 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     const x = a[i - leftIndexOffset]
     const y = b[i - leftIndexOffset]
 
-    if (typeof x === 'undefined' && typeof y === 'undefined') {
-      break
-    }
-
     if (comparisonFn(x, y)) {
       a.shift()
       b.shift()
@@ -51,10 +47,6 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   for (let i = 0; i < l; i++) {
     const x = a[al - i - 1]
     const y = b[bl - i - 1]
-
-    if (typeof x === 'undefined' && typeof y === 'undefined') {
-      break
-    }
 
     if (comparisonFn(x, y)) {
       a.pop()
@@ -141,10 +133,6 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     const x = aObject[index]
     const y = bObject[index]
 
-    if (typeof x === 'undefined' && typeof y === 'undefined') {
-      break
-    }
-
     if (typeof x === 'undefined') {
       results.push(['inserted', index, y])
       removeArrayItem(bKeys, index)
@@ -179,14 +167,18 @@ function checkArray(array) {
   }
 }
 
+function sortSmallestFirst(a, b) {
+  return a < b ? -1 : 1
+}
+
 function mergeDedupeSort(a, b) {
-  return [...new Set([...a, ...b])].sort((a, b) => a < b ? -1 : 1)
+  return [...new Set([...a, ...b])].sort(sortSmallestFirst)
 }
 
 function incrementObjectKeys(o, diff) {
   const keys = Object.keys(o)
   .map(key => parseInt(key))
-  .sort((a, b) => a < b ? -1 : 1)
+  .sort(sortSmallestFirst)
 
   if (diff === 1) {
     keys.reverse()
@@ -197,22 +189,14 @@ function incrementObjectKeys(o, diff) {
 
     delete o[key]
   })
-
-  return o
 }
 
 function incrementArrayItems(a, diff) {
   a.forEach((item, i, a) => a[i] = item + diff)
-
-  return a
 }
 
 function removeArrayItem(a, item) {
-  const i = a.indexOf(item)
-
-  a.splice(i, 1)
-
-  return a
+  a.splice(a.indexOf(item), 1)
 }
 
 function reconstructArray(array, differences, inPlace = false) {
