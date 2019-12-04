@@ -47,8 +47,6 @@ const reconstructed = reconstructArray(input, diff) // builds the output
 reconstructArray(input, diff, true) // modifies input to recreate output from diff
 ```
 
-The algorythm may produce non-conformant results if your array contains `undefined` values.
-
 ## Undefined values
 
 The algorythm does not support arrays containing `undefined` values. Please replace your `undefined` values with a placeholder before applying it.
