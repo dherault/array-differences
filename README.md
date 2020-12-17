@@ -59,11 +59,7 @@ Entry two is length m,
 
 Perfomance is n * n * m.
 
-Therefore, it works best on small arrays. Performance is best when differences indexes are close to one another is the array.
-
-## Say thanks
-
-Show your gratitude with a star on [GitHub](https://github.com/dherault/array-differences)!
+Therefore, it works best on smaller first arrays or if growing an array. Performance is best when differences indexes are close to one another in the array.
 
 ## License
 
