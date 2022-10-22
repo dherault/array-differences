@@ -1,8 +1,6 @@
-/* eslint-env jest */
+import arrayDifferences, { DifferenceType } from '../src'
 
-const arrayDifferences = require('./index')
-
-function testArrayDifferences(a, b, expected) {
+function testArrayDifferences(a: any, b: any, expected: DifferenceType[]) {
   const diff = arrayDifferences(a, b)
 
   expect(diff).toEqual(expected)
@@ -246,7 +244,7 @@ test('It uses a custom comparison function', () => {
     (a, b) => a.value === b.value
   )
 
-  const expected = [['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]]
+  const expected: DifferenceType[] = [['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]]
 
   expect(diff).toEqual(expected)
 
@@ -291,7 +289,7 @@ test('It works on large arrays', () => {
 })
 
 test('It throws on non-array inputs', () => {
-  expect(() => arrayDifferences(null, [])).toThrow()
-  expect(() => arrayDifferences([], null)).toThrow()
-  expect(() => arrayDifferences(2, 3)).toThrow()
+  expect(() => arrayDifferences(null as any as any[], [])).toThrow()
+  expect(() => arrayDifferences([], null as any as any[])).toThrow()
+  expect(() => arrayDifferences(2 as any as any[], 3 as any as any[])).toThrow()
 })

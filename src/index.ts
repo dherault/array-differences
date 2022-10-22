@@ -1,4 +1,6 @@
-function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
+export type DifferenceType = ['inserted' | 'deleted' | 'modified', number, any?]
+
+function arrayDifferences(arrayA: any[], arrayB: any[], comparisonFn = defaultComparisonFn) {
   checkArray(arrayA)
   checkArray(arrayB)
 
@@ -70,8 +72,8 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     bObject: { '2': 4 }
   */
 
-  const aObject = {}
-  const bObject = {}
+  const aObject: Record<number, any> = {}
+  const bObject: Record<number, any> = {}
 
   a.forEach((item, index) => aObject[leftIndexOffset + index] = item)
   b.forEach((item, index) => bObject[leftIndexOffset + index] = item)
@@ -84,16 +86,18 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
     The winner is the one that deletes the most indexes.
   */
 
-  let indexesToDeleteA = []
-  let indexesToDeleteB = []
+  let indexesToDeleteA: number[] = []
+  let indexesToDeleteB: number[] = []
 
   for (let i = 0; i < a.length; i++) {
     for (let j = 0; j < a.length - i; j++) {
-      const currentIndexesToDeleteA = []
-      const currentIndexesToDeleteB = []
+      const currentIndexesToDeleteA: number[] = []
+      const currentIndexesToDeleteB: number[] = []
       let maxIndex = 0
 
-      Object.entries(aObject).forEach(([indexA, itemA]) => {
+      Object.entries(aObject).forEach(([indexAString, itemA]) => {
+        const indexA = parseInt(indexAString)
+
         if (indexA >= i && indexA < i + j) {
           return
         }
@@ -122,7 +126,7 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   /*
     Resolve incoherences.
   */
-  const results = []
+  const results: DifferenceType[] = []
 
   const aKeys = Object.keys(aObject).map(key => parseInt(key))
   const bKeys = Object.keys(bObject).map(key => parseInt(key))
@@ -157,25 +161,25 @@ function arrayDifferences(arrayA, arrayB, comparisonFn = defaultComparisonFn) {
   return results
 }
 
-function defaultComparisonFn(x, y) {
+function defaultComparisonFn(x: any, y: any) {
   return x === y
 }
 
-function checkArray(array) {
+function checkArray(array: any[]) {
   if (!Array.isArray(array)) {
     throw new Error('Argument is not an array')
   }
 }
 
-function sortSmallestFirst(a, b) {
+function sortSmallestFirst(a: number, b: number) {
   return a < b ? -1 : 1
 }
 
-function mergeDedupeSort(a, b) {
+function mergeDedupeSort(a: any[], b: any[]) {
   return [...new Set([...a, ...b])].sort(sortSmallestFirst)
 }
 
-function incrementObjectKeys(o, diff) {
+function incrementObjectKeys(o: Record<string, any>, diff: number) {
   const keys = Object.keys(o)
   .map(key => parseInt(key))
   .sort(sortSmallestFirst)
@@ -185,21 +189,21 @@ function incrementObjectKeys(o, diff) {
   }
 
   keys.forEach(key => {
-    o[parseInt(key) + diff] = o[key]
+    o[key + diff] = o[key]
 
     delete o[key]
   })
 }
 
-function incrementArrayItems(a, diff) {
+function incrementArrayItems(a: any[], diff: number) {
   a.forEach((item, i, a) => a[i] = item + diff)
 }
 
-function removeArrayItem(a, item) {
+function removeArrayItem(a: any[], item: any) {
   a.splice(a.indexOf(item), 1)
 }
 
-function reconstructArray(array, differences, inPlace = false) {
+function reconstructArray(array: any[], differences: DifferenceType[], inPlace = false) {
   const a = inPlace ? array : array.slice()
 
   differences.forEach(([operation, index, value]) => {
@@ -219,4 +223,4 @@ function reconstructArray(array, differences, inPlace = false) {
 
 arrayDifferences.reconstructArray = reconstructArray
 
-module.exports = arrayDifferences
+export default arrayDifferences
