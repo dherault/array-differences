@@ -86,6 +86,12 @@ test('It returns the inserted items', () => {
     [0, 111, 1, 2, 112, 3],
     [['inserted', 1, 111], ['inserted', 4, 112]]
   )
+
+  testArrayDifferences(
+    [0, 1, 2, 3],
+    [0, 111, 112, 1, 2, 113, 114, 3],
+    [['inserted', 1, 111], ['inserted', 2, 112], ['inserted', 5, 113], ['inserted', 6, 114]]
+  )
 })
 
 test('It returns the deleted items', () => {
@@ -179,6 +185,18 @@ test('It return the modified, inserted and deleted items in complex situations',
     [0, 1, 2, 3, 4, 5, 6],
     [111, 1, 112, 5, 7],
     [['modified', 0, 111], ['modified', 2, 112], ['deleted', 3], ['deleted', 3], ['modified', 4, 7]]
+  )
+
+  testArrayDifferences(
+    [0, 1, 2, 3],
+    [0, 111, 112, 113, 1, 2, 114, 115, 3],
+    [['inserted', 1, 111], ['inserted', 2, 112], ['inserted', 3, 113], ['inserted', 6, 114], ['inserted', 7, 115]]
+  )
+
+  testArrayDifferences(
+    [0, 1, 2, 3],
+    [0, 111, 112, 113, 2, 114, 115, 3],
+    [['modified', 1, 111], ['inserted', 2, 112], ['inserted', 3, 113], ['inserted', 5, 114], ['inserted', 6, 115]]
   )
 })
 
