@@ -1,6 +1,6 @@
-export type DifferenceType = ['inserted' | 'deleted' | 'modified', number, any?]
+export type DifferenceType<T> = ['inserted' | 'deleted' | 'modified', number, T?]
 
-function arrayDifferences(arrayA: any[], arrayB: any[], comparisonFn = defaultComparisonFn) {
+function arrayDifferences<T = any>(arrayA: T[], arrayB: T[], comparisonFn = (x: T, y: T) => x === y) {
   checkArray(arrayA)
   checkArray(arrayB)
 
@@ -126,7 +126,7 @@ function arrayDifferences(arrayA: any[], arrayB: any[], comparisonFn = defaultCo
   /*
     Resolve incoherences.
   */
-  const results: DifferenceType[] = []
+  const results: DifferenceType<T>[] = []
 
   const aKeys = Object.keys(aObject).map(key => parseInt(key))
   const bKeys = Object.keys(bObject).map(key => parseInt(key))
@@ -161,10 +161,6 @@ function arrayDifferences(arrayA: any[], arrayB: any[], comparisonFn = defaultCo
   return results
 }
 
-function defaultComparisonFn(x: any, y: any) {
-  return x === y
-}
-
 function checkArray(array: any[]) {
   if (!Array.isArray(array)) {
     throw new Error('Argument is not an array')
@@ -175,7 +171,7 @@ function sortSmallestFirst(a: number, b: number) {
   return a < b ? -1 : 1
 }
 
-function mergeDedupeSort(a: any[], b: any[]) {
+function mergeDedupeSort(a: number[], b: number[]) {
   return [...new Set([...a, ...b])].sort(sortSmallestFirst)
 }
 
@@ -195,32 +191,30 @@ function incrementObjectKeys(o: Record<string, any>, diff: number) {
   })
 }
 
-function incrementArrayItems(a: any[], diff: number) {
+function incrementArrayItems(a: number[], diff: number) {
   a.forEach((item, i, a) => a[i] = item + diff)
 }
 
-function removeArrayItem(a: any[], item: any) {
+function removeArrayItem(a: number[], item: number) {
   a.splice(a.indexOf(item), 1)
 }
 
-function reconstructArray(array: any[], differences: DifferenceType[], inPlace = false) {
+export function reconstructArray<T>(array: T[], differences: DifferenceType<T>[], inPlace = false) {
   const a = inPlace ? array : array.slice()
 
   differences.forEach(([operation, index, value]) => {
     if (operation === 'inserted') {
-      a.splice(index, 0, value)
+      a.splice(index, 0, value!)
     }
     else if (operation === 'deleted') {
       a.splice(index, 1)
     }
     else if (operation === 'modified') {
-      a[index] = value
+      a[index] = value!
     }
   })
 
   return a
 }
-
-arrayDifferences.reconstructArray = reconstructArray
 
 export default arrayDifferences

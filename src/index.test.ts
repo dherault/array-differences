@@ -1,13 +1,17 @@
-import arrayDifferences, { DifferenceType } from '../src'
+import arrayDifferences, { type DifferenceType, reconstructArray } from '../src'
 
-function testArrayDifferences(a: any, b: any, expected: DifferenceType[]) {
+function testArrayDifferences<T>(a: T[], b: T[], expected: DifferenceType<T>[]) {
   const diff = arrayDifferences(a, b)
 
   expect(diff).toEqual(expected)
 
-  const reconstructed = arrayDifferences.reconstructArray(a, diff)
+  const reconstructed = reconstructArray(a, diff)
 
   expect(reconstructed).toEqual(b)
+
+  reconstructArray(a, diff, true)
+
+  expect(a).toEqual(b)
 }
 
 test('It return an empty array on no differences', () => {
@@ -262,11 +266,11 @@ test('It uses a custom comparison function', () => {
     (a, b) => a.value === b.value
   )
 
-  const expected: DifferenceType[] = [['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]]
+  const expected: DifferenceType<typeof array1[number]>[] = [['modified', 0, { value: 111 }], ['inserted', 2, { value: 112 }], ['deleted', 5]]
 
   expect(diff).toEqual(expected)
 
-  const reconstructed = arrayDifferences.reconstructArray(array1, expected)
+  const reconstructed = reconstructArray(array1, expected)
 
   expect(reconstructed).toEqual(array2)
 })
