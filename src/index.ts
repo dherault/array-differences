@@ -1,6 +1,6 @@
 export type DifferenceType<T = any> = ['inserted' | 'deleted' | 'modified', number, T?]
 
-function arrayDifferences<T = any>(arrayA: T[], arrayB: T[], comparisonFn = (x: T, y: T) => x === y) {
+export function arrayDifferences<T = any>(arrayA: T[], arrayB: T[], comparisonFn = (x: T, y: T) => x === y) {
   checkArray(arrayA)
   checkArray(arrayB)
 
@@ -216,5 +216,3 @@ export function reconstructArray<T>(array: T[], differences: DifferenceType<T>[]
 
   return a
 }
-
-export default arrayDifferences

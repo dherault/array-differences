@@ -1,4 +1,4 @@
-import arrayDifferences, { type DifferenceType, reconstructArray } from '../src'
+import { type DifferenceType, arrayDifferences, reconstructArray } from '../src'
 
 function testArrayDifferences<T>(a: T[], b: T[], expected: DifferenceType<T>[]) {
   const diff = arrayDifferences(a, b)

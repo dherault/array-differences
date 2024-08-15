@@ -7,5 +7,7 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
