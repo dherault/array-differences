@@ -1,4 +1,8 @@
-export type DifferenceType<T = any> = ['inserted' | 'deleted' | 'modified', number, T?]
+type InsertedDifferenceType<T = any> = ['inserted', number, T]
+type DeletedDifferenceType = ['deleted', number]
+type ModifiedDifferenceType<T = any> = ['modified', number, T]
+
+export type DifferenceType<T = any> = InsertedDifferenceType<T> | DeletedDifferenceType | ModifiedDifferenceType<T>
 
 export function diffArray<T = any>(arrayA: T[], arrayB: T[], comparisonFn = (x: T, y: T) => x === y) {
   checkArray(arrayA)
