@@ -296,7 +296,7 @@ test('It works with any litterals out of the box', () => {
 })
 
 test('It works on large arrays', () => {
-  const array = []
+  const array: number[] = []
 
   for (let i = 0; i < 1000; i++) {
     array.push(i)
