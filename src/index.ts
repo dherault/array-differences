@@ -76,8 +76,8 @@ export function diffArray<T = any>(arrayA: T[], arrayB: T[], comparisonFn = (x: 
     bObject: { '2': 4 }
   */
 
-  const aObject: Record<number, any> = {}
-  const bObject: Record<number, any> = {}
+  const aObject: Record<number, T> = {}
+  const bObject: Record<number, T> = {}
 
   a.forEach((item, index) => aObject[leftIndexOffset + index] = item)
   b.forEach((item, index) => bObject[leftIndexOffset + index] = item)
