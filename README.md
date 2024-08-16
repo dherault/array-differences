@@ -15,11 +15,11 @@ or
 ## Usage
 
 ```js
-import arrayDifferences from 'array-differences'
+import { diffArray } from 'array-differences'
 
 const input = [0, 1, 1, 4, 1, 1]
 const output = [111, 1, 112, 1, 4, 1]
-const diff = arrayDifferences(input, output)
+const diff = diffArray(input, output)
 
 --> [['modified', 0, 111], ['inserted', 2, 112], ['deleted', 5]]
 ```
@@ -27,7 +27,7 @@ const diff = arrayDifferences(input, output)
 Using a custom comparison function:
 
 ```js
-const diff = arrayDifferences(
+const diff = diffArray(
   [{ name: 'John' }, { name: 'Marie' }],
   [{ name: 'John' }, { name: 'Marie' }, { name: 'Chloe' }],
   (a, b) => a.name === b.name
@@ -53,11 +53,11 @@ The algorythm does not support arrays containing `undefined` values. Please repl
 
 ## Performance on large arrays
 
-Entry one is length n,
+Entry one is length m,
 
-Entry two is length m,
+Entry two is length n,
 
-Perfomance is n * n * m.
+Perfomance is m * m * n.
 
 Therefore, it works best on smaller first arrays or if growing an array. Performance is best when differences indexes are close to one another in the array.
 
