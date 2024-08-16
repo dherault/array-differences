@@ -1,7 +1,7 @@
-import { type DifferenceType, arrayDifferences, reconstructArray } from '../src'
+import { type DifferenceType, diffArray, reconstructArray } from '../src'
 
 function testArrayDifferences<T>(a: T[], b: T[], expected: DifferenceType<T>[]) {
-  const diff = arrayDifferences(a, b)
+  const diff = diffArray(a, b)
 
   expect(diff).toEqual(expected)
 
@@ -260,7 +260,7 @@ test('It uses a custom comparison function', () => {
   const array1 = [{ value: 0 }, { value: 1 }, { value: 1 }, { value: 4 }, { value: 1 }, { value: 1 }]
   const array2 = [{ value: 111 }, { value: 1 }, { value: 112 }, { value: 1 }, { value: 4 }, { value: 1 }]
 
-  const diff = arrayDifferences(
+  const diff = diffArray(
     array1,
     array2,
     (a, b) => a.value === b.value
@@ -311,7 +311,7 @@ test('It works on large arrays', () => {
 })
 
 test('It throws on non-array inputs', () => {
-  expect(() => arrayDifferences(null as any as any[], [])).toThrow()
-  expect(() => arrayDifferences([], null as any as any[])).toThrow()
-  expect(() => arrayDifferences(2 as any as any[], 3 as any as any[])).toThrow()
+  expect(() => diffArray(null as any as any[], [])).toThrow()
+  expect(() => diffArray([], null as any as any[])).toThrow()
+  expect(() => diffArray(2 as any as any[], 3 as any as any[])).toThrow()
 })
