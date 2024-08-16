@@ -1,8 +1,7 @@
 {
   "name": "array-differences",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Find the differences between two arrays and their positions",
-  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
