@@ -315,3 +315,12 @@ test('It throws on non-array inputs', () => {
   expect(() => diffArray([], null as any as any[])).toThrow()
   expect(() => diffArray(2 as any as any[], 3 as any as any[])).toThrow()
 })
+
+test('It does not modify the inputs', () => {
+  const a = [0, 1, 2]
+  const b = [0, 1, 111]
+
+  expect(diffArray(a, b)).toEqual([['modified', 2, 111]])
+  expect(a).toEqual([0, 1, 2])
+  expect(b).toEqual([0, 1, 111])
+})
